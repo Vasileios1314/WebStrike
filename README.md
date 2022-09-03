@@ -81,4 +81,3 @@ State: state that the person, this is being shipped, is living in
 Country: country that the person, this is being shipped, is living in
 Zip: zipcode that the person, this is being shipped, is living in
 UserID: connects this address to a user
----
