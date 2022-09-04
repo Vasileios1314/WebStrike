@@ -2,18 +2,14 @@
 
 #nullable disable
 
-namespace WebStrike.Migrations
-{
+namespace WebStrike.Migrations {
     /// <inheritdoc />
-    public partial class AddUserToDatabase : Migration
-    {
+    public partial class AddUserToDatabase : Migration {
         /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
+        protected override void Up(MigrationBuilder migrationBuilder) {
             migrationBuilder.CreateTable(
                 name: "Users",
-                columns: table => new
-                {
+                columns: table => new {
                     userId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -22,15 +18,13 @@ namespace WebStrike.Migrations
                     password = table.Column<int>(type: "int", nullable: false),
                     isAdmin = table.Column<bool>(type: "bit", nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Users", x => x.userId);
                 });
         }
 
         /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+        protected override void Down(MigrationBuilder migrationBuilder) {
             migrationBuilder.DropTable(
                 name: "Users");
         }
