@@ -1,10 +1,10 @@
-﻿namespace WebStrike.Data.Enums
-{
-    public enum MovieCategory
-    {
+﻿namespace WebStrike.Data.Enums {
+    public enum MovieCategory {
         Action = 1,
         Comedy,
         Drama,
-        Documentary
+        Documentary,
+        Horror,
+        Cartoon
     }
 }
