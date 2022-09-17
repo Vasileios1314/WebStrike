@@ -507,4 +507,35 @@ export function AjxPost(url, object) {
 //			this.showFetchError(err);
 //		});
 //}
+//Bootstrap API
+//HTML
+//<link id="theme" rel = "stylesheet" href = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" >
+//	<div class="container mt-5" >
+//		<div class="alert alert-info" >
+//			<h1>Bootstrap < /h1>
+//			< p > This is a demo of the Bootswatch API.< /p>
+//				< /div>
+//				< select class="form-select" > </select>
+//					< /div>
+////JS
+//fetch('https://bootswatch.com/api/5.json')
+//	.then(response => response.json())
+//	.then(data => load(data));
+//function load(data) {
+//	const themes = data.themes;
+//	const select = document.querySelector('select');
+//	themes.forEach((value, index) => {
+//		const option = document.createElement('option');
+//		option.value = index;
+//		option.textContent = value.name;
+//		select.append(option);
+//	});
+//	select.addEventListener('change', (e) => {
+//		const theme = themes[e.target.value];
+//		document.querySelector('#theme').setAttribute('href', theme.css);
+//		document.querySelector('.alert h1').textContent = theme.name;
+//	});
+//	const changeEvent = new Event('change');
+//	select.dispatchEvent(changeEvent);
+//}
 //# sourceMappingURL=helper.js.map
