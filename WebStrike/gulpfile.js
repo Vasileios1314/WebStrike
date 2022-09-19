@@ -18,7 +18,14 @@ gulp.task('build-sass', () => {
 
 gulp.task('build-ts', () => {
     return gulp.src(filePaths.tsInputPath)
-        .pipe(gulp_ts())
+        .pipe(gulp_ts({
+            "noImplicitAny": false,
+            "noEmitOnError": true,
+            "removeComments": false,
+            "sourceMap": true,
+            "target": "es6",
+            "outDir": "wwwroot/js"
+        }))
         .pipe(gulp.dest(filePaths.tsOutputPath))
 })
 

@@ -7,6 +7,7 @@
     "gulp-sass": "5.1.0",
     "sass": "1.54.9",
     "node-sass": "7.0.3",
-    "bootstrap": "5.2.1"
+    "bootstrap": "5.2.1",
+    "bootswatch": "5.2.1"
   }
   }

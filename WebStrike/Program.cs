@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using WebStrike.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +23,11 @@ if (app.Environment.IsDevelopment()) {
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+//node modules
+app.UseStaticFiles(new StaticFileOptions {
+    FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "node_modules")),
+    RequestPath = "/node_modules"
+});
 
 app.UseRouting();
 //app.UseAuthentication();

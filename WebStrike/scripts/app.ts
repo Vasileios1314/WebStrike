@@ -14,8 +14,8 @@ interface Person {
     firstName: string;
     lastName: string;
 }
-
+//dsadsa
 function greeter(person: Person) {
     return "Hello, " + person.firstName + " " + person.lastName;
 }
-let user = new Student("Fred", "M.", "Vasileioss");
+let user = new Student("Fred", "M.", "Vasilis");

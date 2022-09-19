@@ -10,8 +10,9 @@ class Student {
         this.fullName = firstName + " " + middleInitial + " " + lastName;
     }
 }
+//dsadsa
 function greeter(person) {
     return "Hello, " + person.firstName + " " + person.lastName;
 }
-let user = new Student("Fred", "M.", "Vasileioss");
+let user = new Student("Fred", "M.", "Vasilis");
 //# sourceMappingURL=app.js.map
