@@ -1,4 +1,4 @@
-/// <binding AfterBuild='default' />
+/// <binding />
 let gulp = require('gulp')
 let gulp_sass = require('gulp-sass')(require('sass'))
 let gulp_ts = require('gulp-typescript')
