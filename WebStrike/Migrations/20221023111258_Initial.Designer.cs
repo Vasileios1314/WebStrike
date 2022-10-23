@@ -12,7 +12,7 @@ using WebStrike.Data;
 namespace WebStrike.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220916183541_Initial")]
+    [Migration("20221023111258_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
