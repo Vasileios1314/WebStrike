@@ -18,4 +18,4 @@ interface Person {
 function greeter(person: Person) {
     return "Hello, " + person.firstName + " " + person.lastName;
 }
-let user = new Student("Fred", "M.", "Vasilis");
+let user = new Student("Fred", "M.", "Vas");
