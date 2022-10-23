@@ -1,17 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebStrike.Data;
+using WebStrike.Models;
+
 
 namespace WebStrike.Controllers {
-    public class ActorsController : Controller {
+
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ActorsController : ControllerBase {
         private readonly ApplicationDbContext _context;
-        public ActorsController(ApplicationDbContext context) {
+
+        public ActorsController(ApplicationDbContext context ) {  
             _context = context;
         }
-
-        public async Task<IActionResult> Index() {
-            var data = await _context.Actors.ToListAsync();
-            return View();
+        [HttpGet("GetActors")]
+        public async Task<List<Actor>> GetActors() {
+            return await _context.Actors.ToListAsync();
         }
     }
 }

@@ -1,5 +1,7 @@
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using System.Data;
 using WebStrike.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,9 +39,13 @@ app.UseEndpoints(endpoints => {
     app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
+    //endpoints.MapControllers();
+
 });
 //Seed database
 AppDbInitializer.Seed(app);
 //AppDbInitializer.SeedUsersAndRolesAsync(app).Wait();
 
 app.Run();
+
+
