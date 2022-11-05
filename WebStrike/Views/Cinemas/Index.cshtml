@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "List of Cinemas";
+}
+
+<div class="row">
+    <div id="cinemassDiv" class="col-md-8 offset-md-2">
+        <table class="table">
+            <thead id="tableHead">
+                <tr class="text-center">
+                    <th>Logo</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+            </tbody>
+        </table>
+    </div>
+</div>
+@section scripts {
+    <script type="module" src="~/js/pages/cinemas.js"></script>
+    }
