@@ -15,3 +15,4 @@ function greeter(person) {
     return "Hello, " + person.firstName + " " + person.lastName;
 }
 let user = new Student("Fred", "M.", "Vas");
+//# sourceMappingURL=app.js.map

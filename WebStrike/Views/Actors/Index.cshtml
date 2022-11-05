@@ -1,11 +1,23 @@
 ﻿@{
     ViewData["Title"] = "List of Actors";
 }
-    @section scripts {
-    <script src="~/js/actors.js"></script>
-}
 
-<div class="row">
-    <div id="actorsDiv" class="col-md-8 offset-md-2">
+    <div class="row">
+        <div id="actorsDiv" class="col-md-8 offset-md-2">
+        <table class="table">
+            <thead id="tableHead">
+                <tr class="text-center">
+                    <th>Profile Picture</th>
+                    <th>Full Name</th>
+                    <th>Bio</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+            </tbody>
+        </table>
+        </div>
     </div>
-</div>
+@section scripts {
+    <script type="module" src="~/js/pages/actors.js"></script>
+    }

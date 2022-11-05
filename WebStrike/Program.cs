@@ -24,6 +24,7 @@ if (app.Environment.IsDevelopment()) {
 
 
 app.UseHttpsRedirection();
+app.UseDefaultFiles();
 app.UseStaticFiles();
 //node modules
 app.UseStaticFiles(new StaticFileOptions {
@@ -39,9 +40,10 @@ app.UseEndpoints(endpoints => {
     app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
-    //endpoints.MapControllers();
+    endpoints.MapControllers();
 
 });
+
 //Seed database
 AppDbInitializer.Seed(app);
 //AppDbInitializer.SeedUsersAndRolesAsync(app).Wait();

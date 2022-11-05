@@ -538,3 +538,130 @@ export function AjxPost(url, object) {
 //	const changeEvent = new Event('change');
 //	select.dispatchEvent(changeEvent);
 //}
+//Function for getting data //usage let mydata: any = await this.GetData('18');
+export function AjxGetJSON(url, parseJson = false, timeout = 5000, onerror = null) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            //const controller = new AbortController(); https://dmitripavlutin.com/timeout-fetch-request/
+            //const id = setTimeout(() => controller.abort(), timeout);
+            let hasFailed = false;
+            const id = setTimeout(() => __awaiter(this, void 0, void 0, function* () {
+                if (onerror) {
+                    onerror("timeoutexpired"); //trigger the error callback
+                }
+                yield console.log('err');
+                hasFailed = true;
+                return;
+            }), timeout);
+            const response = yield fetch(url, {
+                method: 'GET',
+                credentials: 'same-origin',
+                cache: "no-store",
+                //signal: controller.signal
+            });
+            clearTimeout(id);
+            if (hasFailed) {
+                return null;
+            }
+            else {
+                if (response.ok) {
+                    if (parseJson) {
+                        let jsonstring = yield response;
+                        return jsonParse(jsonstring);
+                    }
+                    else {
+                        return response.json();
+                    }
+                }
+                else {
+                    if (onerror) {
+                        onerror(response); //trigger the error callback
+                    }
+                    yield console.log('err', response); //show and log the error
+                }
+            }
+        }
+        catch (ex) {
+            //general failure
+            if (onerror) {
+                onerror(ex);
+            }
+            throw ex;
+        }
+        ;
+    });
+}
+export function AjxGet(url, timeout = 5000, onerror = null) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            //const controller = new AbortController(); https://dmitripavlutin.com/timeout-fetch-request/
+            //const id = setTimeout(() => controller.abort(), timeout);
+            // If timeout is null, the timeout alert appears immediately. 
+            // That's not wat we want so in that case set the timeout to the default 5000 ms.
+            if (timeout == null) {
+                timeout = 5000;
+            }
+            let hasFailed = false;
+            const id = setTimeout(() => __awaiter(this, void 0, void 0, function* () {
+                if (onerror) {
+                    onerror("timeoutexpired"); //trigger the error callback
+                }
+                yield console.log('err', url, location.href);
+                hasFailed = true;
+                return;
+            }), timeout);
+            const response = yield fetch(url, {
+                method: 'GET',
+                credentials: 'same-origin',
+                cache: "no-store",
+                //signal: controller.signal
+            });
+            clearTimeout(id);
+            if (hasFailed) {
+                return null;
+            }
+            else {
+                if (response.ok) {
+                    let jsonstring = yield response.json();
+                    return jsonParse(jsonstring);
+                }
+                else {
+                    if (onerror) { //is a function defined ?
+                        onerror(response); //trigger the error callback
+                    }
+                    yield console.log('err', response); //show and log the error
+                }
+            }
+        }
+        catch (ex) {
+            //general failure
+            if (onerror) { //is a function defined ?
+                onerror(ex);
+            }
+            throw ex;
+        }
+        ;
+    });
+}
+export function AjxGetBLOB(url) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const response = yield fetch(url, {
+                method: 'GET',
+                credentials: 'same-origin',
+                cache: "no-store",
+            });
+            if (response.ok) {
+                return response.blob();
+            }
+            else {
+                console.log(response);
+            }
+        }
+        catch (ex) {
+            throw ex;
+        }
+        ;
+    });
+}
+//# sourceMappingURL=helper.js.map
