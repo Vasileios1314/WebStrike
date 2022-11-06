@@ -304,11 +304,12 @@ export function hideWait() {
     loader.style.display = "none";
 }
 export function showSpinner(inline = false, parentSelector = undefined) {
-    const spinnerHtml = '<div class="spinner-border text-success"></div>';
+    const spinnerHtml = '<div class="spinner-border text-success" ></div>';
     let spinner = document.getElementById('spinner');
     if (!spinner) {
         spinner = document.createElement('div');
         spinner.setAttribute('id', 'spinner');
+        spinner.setAttribute('class', 'text-center');
         if (inline) {
             spinner.classList.add('inline');
         }
@@ -663,5 +664,35 @@ export function AjxGetBLOB(url) {
         }
         ;
     });
+}
+export function bindEvent(object, event, callback, bindingNotAllowed = false) {
+    if (object && !bindingNotAllowed) {
+        // Test the type of the constructor
+        switch (object.constructor) {
+            case NodeList:
+                object === null || object === void 0 ? void 0 : object.forEach((item) => {
+                    bindEventToItem(item, event, callback);
+                });
+                break;
+            case String:
+                // the string can be any css selector (like: #idselector or .classselector)
+                let items = document.querySelectorAll(object);
+                items === null || items === void 0 ? void 0 : items.forEach((item) => {
+                    bindEventToItem(item, event, callback);
+                });
+                break;
+            // The default is an HTMLElement or an extended class of it, like HTMLButtonElement
+            default:
+                bindEventToItem(object, event, callback);
+                break;
+        }
+    }
+}
+function bindEventToItem(item, event, callback) {
+    // Remove existing EventListeners first.
+    if (typeof (item.removeEventListener) === 'function') {
+        item.removeEventListener(event, callback);
+    }
+    item.addEventListener(event, callback);
 }
 //# sourceMappingURL=helper.js.map

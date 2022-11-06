@@ -27,5 +27,9 @@ namespace WebStrike.Controllers {
         public async Task<List<Cinema>> GetCinemas() {
             return await _context.Cinemas.ToListAsync();
         }
+        [HttpGet("GetMovies")]
+        public async Task<List<Movie>> GetMovies() {
+            return await _context.Movies.ToListAsync();
+        }
     }
 }

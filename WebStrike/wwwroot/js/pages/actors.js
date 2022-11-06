@@ -13,11 +13,12 @@ const tableBody = document.getElementById('tableBody');
 let RootUrl = window.location.origin;
 function getActors() {
     return __awaiter(this, void 0, void 0, function* () {
+        helper.showSpinner();
         const displayActors = yield helper.AjxGet(`${RootUrl}/api/Api/GetActors`);
         console.log('res', displayActors);
         console.log('id', displayActors.map(x => x.fullName));
         if (displayActors == null) {
-            actorsDiv.innerHTML = 'Loading...';
+            helper.showSpinner();
         }
         displayActors.map(actor => {
             const tr = document.createElement('tr');
@@ -66,6 +67,7 @@ function getActors() {
         //                    </td>
         //            </tr>`;
         //});
+        helper.hideSpinner();
     });
 }
 getActors();

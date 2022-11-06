@@ -9,12 +9,14 @@ const tableBody = <HTMLBodyElement>document.getElementById('tableBody');
 let RootUrl: string = window.location.origin;
 
 async function getCinemas() {
+    helper.showSpinner()
+
     const displayCinemas = await helper.AjxGet(`${RootUrl}/api/Api/GetCinemas`);
     console.log('res', displayCinemas)
     console.log('id', displayCinemas.map(x => x.name))
 
     if (displayCinemas == null) {
-        cinemasDiv.innerHTML = 'Loading...';
+        helper.showSpinner()
     }
 
     displayCinemas.map(cinema => {
@@ -51,7 +53,7 @@ async function getCinemas() {
         td.appendChild(img)
         tableBody.appendChild(tr)
     })
-
+    helper.hideSpinner()
 }
 
 

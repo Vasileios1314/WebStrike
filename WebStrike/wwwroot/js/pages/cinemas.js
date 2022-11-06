@@ -13,11 +13,12 @@ const tableBody = document.getElementById('tableBody');
 let RootUrl = window.location.origin;
 function getCinemas() {
     return __awaiter(this, void 0, void 0, function* () {
+        helper.showSpinner();
         const displayCinemas = yield helper.AjxGet(`${RootUrl}/api/Api/GetCinemas`);
         console.log('res', displayCinemas);
         console.log('id', displayCinemas.map(x => x.name));
         if (displayCinemas == null) {
-            cinemasDiv.innerHTML = 'Loading...';
+            helper.showSpinner();
         }
         displayCinemas.map(cinema => {
             const tr = document.createElement('tr');
@@ -47,6 +48,7 @@ function getCinemas() {
             td.appendChild(img);
             tableBody.appendChild(tr);
         });
+        helper.hideSpinner();
     });
 }
 getCinemas();

@@ -13,11 +13,12 @@ const tableBody = document.getElementById('tableBody');
 let RootUrl = window.location.origin;
 function getProducers() {
     return __awaiter(this, void 0, void 0, function* () {
+        helper.showSpinner();
         const displayProducers = yield helper.AjxGet(`${RootUrl}/api/Api/Getproducers`);
         console.log('res', displayProducers);
         console.log('id', displayProducers.map(x => x.fullName));
         if (displayProducers == null) {
-            producersDiv.innerHTML = 'Loading...';
+            helper.showSpinner();
         }
         displayProducers.map(producer => {
             const tr = document.createElement('tr');
@@ -47,6 +48,7 @@ function getProducers() {
             td.appendChild(img);
             tableBody.appendChild(tr);
         });
+        helper.hideSpinner();
     });
 }
 getProducers();

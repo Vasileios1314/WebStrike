@@ -9,12 +9,14 @@ const tableBody = <HTMLBodyElement>document.getElementById('tableBody');
 let RootUrl: string = window.location.origin;
 
 async function getProducers() {
+    helper.showSpinner()
+
     const displayProducers = await helper.AjxGet(`${RootUrl}/api/Api/Getproducers`);
     console.log('res', displayProducers)
     console.log('id', displayProducers.map(x => x.fullName))
 
     if (displayProducers == null) {
-        producersDiv.innerHTML = 'Loading...';
+        helper.showSpinner()
     }
 
     displayProducers.map(producer => {
@@ -51,6 +53,7 @@ async function getProducers() {
         td.appendChild(img)
         tableBody.appendChild(tr)
     })
+    helper.hideSpinner()
 }
 
 

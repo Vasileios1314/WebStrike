@@ -9,12 +9,14 @@ const tableBody = <HTMLBodyElement>document.getElementById('tableBody');
 let RootUrl: string = window.location.origin;
 
 async function getActors() {
+    helper.showSpinner()
+
     const displayActors = await helper.AjxGet(`${RootUrl}/api/Api/GetActors`);
     console.log('res', displayActors)
     console.log('id', displayActors.map(x => x.fullName))
 
     if (displayActors == null) {
-        actorsDiv.innerHTML = 'Loading...';
+        helper.showSpinner()
     }
 
     displayActors.map(actor => {
@@ -72,7 +74,7 @@ async function getActors() {
     //                    </td>
     //            </tr>`;
     //});
-
+    helper.hideSpinner()
 }
 
 
