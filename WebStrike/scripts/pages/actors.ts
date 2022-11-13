@@ -56,7 +56,7 @@ class Actor {
     }
 }
 
-
+//test
 async function getActors() {
     const displayActors: Actor[] = await helper.AjxGet(`${RootUrl}/api/Api/GetActors`);
 

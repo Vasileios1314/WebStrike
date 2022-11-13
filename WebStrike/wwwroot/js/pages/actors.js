@@ -50,6 +50,7 @@ class Actor {
         });
     }
 }
+//test
 function getActors() {
     return __awaiter(this, void 0, void 0, function* () {
         const displayActors = yield helper.AjxGet(`${RootUrl}/api/Api/GetActors`);
