@@ -9,7 +9,7 @@ namespace WebStrike.Controllers {
             _context = context;
         }
         public async Task<IActionResult> Index() {
-            var data = await _context.Producers.ToListAsync();
+            var data = await _context.Cinemas.ToListAsync();
 
             return View();
         }

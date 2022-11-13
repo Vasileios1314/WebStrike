@@ -8,16 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import * as helper from '../helper/helper.js';
-const moviesDiv = document.getElementById('moviesDiv');
-const tableBody = document.getElementById('tableBody');
-const card = document.getElementById('card');
 let RootUrl = window.location.origin;
+const card = document.getElementById('card');
 function getMovies() {
     return __awaiter(this, void 0, void 0, function* () {
-        //helper.showSpinner()
+        helper.showSpinner();
         const displayMovies = yield helper.AjxGet(`${RootUrl}/api/Api/GetMovies`);
         console.log('res', displayMovies);
-        console.log('id', displayMovies.map(x => x.name));
         if (displayMovies == null) {
             helper.showSpinner();
         }
@@ -47,13 +44,13 @@ function getMovies() {
             const headTitle = document.createElement('h5');
             headTitle.classList.add('card-title');
             headTitle.setAttribute('id', 'cardTitle');
-            headTitle.innerHTML = `${movie.name}`;
+            headTitle.innerHTML += `${movie.name}`;
             const headEditBtn = document.createElement('a');
             headEditBtn.classList.add('btn');
             headEditBtn.classList.add('text-white');
             headEditBtn.style.cssFloat = "right";
             headEditBtn.setAttribute('id', 'btnEdit');
-            headEditBtn.innerHTML = `<i class="bi bi-pencil-square"></i>`;
+            headEditBtn.innerHTML += `<i class="bi bi-pencil-square"></i>`;
             //body
             const div1Body = document.createElement('div');
             div1Body.classList.add('col-md-6');
@@ -67,24 +64,24 @@ function getMovies() {
             const div3BodyDetails = document.createElement('div');
             div3BodyDetails.classList.add('card-body');
             div3BodyDetails.setAttribute('id', 'dvCardDetails');
-            div3BodyDetails.innerHTML = `
+            div3BodyDetails.innerHTML += `
                             <p class="card-text">${movie.description}</p>
-                            <p class="card-text"><b>Cinema: ${movie.cinemaId}</b></p>
+                            <p class="card-text"><b>Cinema: ${movie.cinema.name}</b></p>
                             <p class="card-text"><b>Category: ${movie.movieCategory}</b></p>
-                            <p class="card-text" type="date"><b>Start Date: ${movie.startDate}</b></p>
-                            <p class="card-text"><b>End Date: ${movie.endDate}</b></p>
-                            <p class="card-text"><b>Status:</b></p>`;
+                            <p class="card-text" type="date"><b>Start Date: ${dayjs(movie.startDate).format('ddd DD MMM YYYY')}</b></p>
+                            <p class="card-text"><b>End Date: ${dayjs(movie.endDate).format('ddd DD MMM YYYY')}</b></p>
+                            <p class="card-text"><b>Status: <span class="badge bg-success text-white" id="status">AVAILABLE</span></b></p>`;
             //footer
             const div1Footer = document.createElement('div');
             div1Footer.classList.add('col-md-12');
             const div2Footer = document.createElement('div');
             div2Footer.classList.add('card-footer');
-            div2Footer.innerHTML = `
+            div2Footer.innerHTML += `
                             <p class="card-text">
                             <a class="btn btn-success text-white" id="btnCart">
-                                    <i class="bi bi-cart-plus"></i>
+                                    <i class="bi bi-cart-plus"></i> Add to Cart  | $${movie.price}
                                 </a>
-                            <a class="btn btn-outline-primary float-right" id="btnShowDetails">
+                            <a class="btn btn-outline-primary" id="btnShowDetails">
                                     <i class="bi bi-eye-fill"></i> Show Details
                                 </a>
                             </p>`;
@@ -106,36 +103,21 @@ function getMovies() {
             //append footer 
             div3Row.appendChild(div1Footer);
             div1Footer.appendChild(div2Footer);
+            const status = document.getElementById('status');
+            if (Date() >= movie.StartDate && Date() <= movie.EndDate) {
+                status.innerText = `AVAILABLE`;
+            }
+            else if (Date() > movie.EndDate) {
+                status.innerText = `EXPIRED`;
+            }
+            else {
+                status.innerText = `UPCOMING`;
+            }
         });
         helper.hideSpinner();
+        // render movie status
     });
 }
 ;
 getMovies();
-//const tr = document.createElement('tr');
-//tr.classList.add('align-middle')
-//tr.setAttribute('id', `${movie.id}`)
-//const td = document.createElement('td');
-//td.classList.add('align-middle')
-//const tdName = document.createElement('td');
-//tdName.classList.add('align-middle')
-//tdName.innerHTML = `${movie.name}`
-//const tdBio = document.createElement('td');
-//tdBio.classList.add('align-middle')
-//tdBio.innerHTML = `${movie.description}`
-//const tdBtn = document.createElement('td');
-//tdBtn.classList.add('align-middle')
-//tdBtn.innerHTML = `<a class="btn btn-outline-primary"><i class="bi bi-pencil-square"></i>Edit</a> |
-//                    <a class="btn btn-outline-info"Id"><i class="bi bi-eye"></i>Details</a> |
-//                    <a class="btn btn-danger text-white"><i class="bi bi-trash"></i>Delete</a> |`
-//const img = document.createElement('img')
-//img.classList.add('rounded-circle')
-//img.style.maxWidth = '150px'
-//img.setAttribute('src', `${movie.imageURL}`)
-//tr.appendChild(td);
-//tr.appendChild(tdName);
-//tr.appendChild(tdBio);
-//tr.appendChild(tdBtn)
-//td.appendChild(img)
-//tableBody.appendChild(tr)
 //# sourceMappingURL=movies.js.map

@@ -95,7 +95,6 @@ export function parseDateTime(input: string): Date {
 
     return toReturn;
 }
-
 export function isValidDate(d: Date): boolean {
     if (d === null) {
         return false;
@@ -700,6 +699,7 @@ export async function AjxGet(url: string, timeout: number = 5000, onerror: { (er
         throw ex;
     };
 }
+
 export async function AjxGetBLOB(url: string) {
     try {
         const response: Response = await fetch(url, {

@@ -19,6 +19,12 @@ namespace WebStrike.Controllers {
             return await _context.Actors.ToListAsync();
         }
 
+        [HttpGet("GetActor/{id}")]
+        public async Task<IActionResult> GetActorsById(int id) {
+            var actor = await _context.Actors.FindAsync(id);
+            return actor== null ? NotFound() : Ok(actor);
+        }
+
         [HttpGet("GetProducers")]
         public async Task<List<Producer>> GetProducers() {
             return await _context.Producers.ToListAsync();
@@ -29,7 +35,7 @@ namespace WebStrike.Controllers {
         }
         [HttpGet("GetMovies")]
         public async Task<List<Movie>> GetMovies() {
-            return await _context.Movies.ToListAsync();
+            return await _context.Movies.Include(n => n.Cinema).ToListAsync();
         }
     }
 }
