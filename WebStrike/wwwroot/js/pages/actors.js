@@ -1,12 +1,3 @@
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 import * as helper from '../helper/helper.js';
 const actorsDiv = document.getElementById('actorsDiv');
 const tableBody = document.getElementById('tableBody');
@@ -20,10 +11,8 @@ class Actor {
         this.actors_Movies = actors_Movies;
     }
     getRow() {
-        return __awaiter(this, void 0, void 0, function* () {
-            helper.showSpinner();
-            tableBody.innerHTML += `
-                <tr id=${this.id}>
+        tableBody.innerHTML += `
+                 <tr id=${this.id}>
                     <td class="align-middle">
                         <img class="rounded-circle" src="${this.profilePictureURL}" alt=${this.fullName}" style="max-width: 150px"/>
                     </td>
@@ -34,38 +23,38 @@ class Actor {
                         ${this.bio}
                     </td>
                         <td class="align-middle">
-                            <a class="btn btn-outline-primary"><i class="bi bi-pencil-square"></i>Edit</a> |
-                            <a class="btn btn-outline-info"Id" id="detailsBtn"><i class="bi bi-eye"></i>Details</a> |
-                            <a class="btn btn-danger text-white"><i class="bi bi-trash"></i>Delete</a> |
+                            <button class="btn btn-outline-primary" id="editBtn-${this.id}"><i class="bi bi-pencil-square" style="pointer-events:none;"></i>Edit</button> |
+                            <button class="btn btn-outline-info" id="detailsBtn-${this.id}"><i class="bi bi-eye" style="pointer-events:none;"></i>Details</button> |
+                            <button class="btn btn-danger text-white" id="dltBtn-${this.id}"><i class="bi bi-trash" style="pointer-events:none;"></i>Delete</button> |
                         </td>
                 </tr>`;
-            helper.hideSpinner();
-        });
-    }
-    getActorById() {
-        return __awaiter(this, void 0, void 0, function* () {
-            let req = yield helper.AjxGet(`${RootUrl}/api/Api/GetActor/${this.id}`)
-                .then((response) => response.id);
-            console.log('res', req);
-        });
     }
 }
-//test2
-function getActors() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const displayActors = yield helper.AjxGet(`${RootUrl}/api/Api/GetActors`);
-        if (displayActors == null) {
-            helper.showSpinner();
-        }
-        displayActors.map(actor => {
-            new Actor(actor.id, actor.profilePictureURL, actor.fullName, actor.bio, actor.actors_Movies).getRow();
-            const detailsBtn = document.getElementById('detailsBtn');
-            detailsBtn.addEventListener('click', () => {
-                new Actor(actor.id, actor.profilePictureURL, actor.fullName, actor.bio, actor.actors_Movies).getActorById();
-            });
-        });
-        console.log('res', displayActors);
+async function initActorsPage() {
+    await getActors();
+    await getActorById();
+}
+async function getActors() {
+    const displayActors = await helper.AjxGet(`${RootUrl}/api/Api/GetActors`);
+    helper.showSpinner();
+    if (displayActors == null) {
+        helper.showSpinner();
+    }
+    displayActors.map(actor => {
+        new Actor(actor.id, actor.profilePictureURL, actor.fullName, actor.bio, actor.actors_Movies).getRow();
+    });
+    console.log('res', displayActors);
+}
+function getActorById() {
+    //let detailsBtn = document.querySelector("button[id^='detailsBtn-']");
+    document.addEventListener('click', async (evt) => {
+        const getId = evt.srcElement;
+        //console.log('getId', getId.id)
+        const id = parseInt(getId.id.split('-').pop());
+        const req = await helper.AjxGet(`${RootUrl}/api/Api/GetActor/${id}`)
+            .then((response) => response.id);
+        console.log('res', req);
     });
 }
-getActors();
+initActorsPage();
 //# sourceMappingURL=actors.js.map

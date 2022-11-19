@@ -26,11 +26,9 @@ class Actor {
 
 
 
-    async getRow() {
-        helper.showSpinner()
-
+    getRow() {
         tableBody.innerHTML += `
-                <tr id=${this.id}>
+                 <tr id=${this.id}>
                     <td class="align-middle">
                         <img class="rounded-circle" src="${this.profilePictureURL}" alt=${this.fullName}" style="max-width: 150px"/>
                     </td>
@@ -41,40 +39,46 @@ class Actor {
                         ${this.bio}
                     </td>
                         <td class="align-middle">
-                            <a class="btn btn-outline-primary"><i class="bi bi-pencil-square"></i>Edit</a> |
-                            <a class="btn btn-outline-info"Id" id="detailsBtn"><i class="bi bi-eye"></i>Details</a> |
-                            <a class="btn btn-danger text-white"><i class="bi bi-trash"></i>Delete</a> |
+                            <button class="btn btn-outline-primary" id="editBtn-${this.id}"><i class="bi bi-pencil-square" style="pointer-events:none;"></i>Edit</button> |
+                            <button class="btn btn-outline-info" id="detailsBtn-${this.id}"><i class="bi bi-eye" style="pointer-events:none;"></i>Details</button> |
+                            <button class="btn btn-danger text-white" id="dltBtn-${this.id}"><i class="bi bi-trash" style="pointer-events:none;"></i>Delete</button> |
                         </td>
                 </tr>`;
-        helper.hideSpinner()
-    }
-    async getActorById() {
-            let req = await helper.AjxGet(`${RootUrl}/api/Api/GetActor/${this.id}`)
-                .then((response) => response.id)
-
-            console.log('res', req)
     }
 }
 
-//test2
-async function getActors() {
-    const displayActors: Actor[] = await helper.AjxGet(`${RootUrl}/api/Api/GetActors`);
 
+async function initActorsPage() {
+    await getActors();
+    await getActorById();
+}
+async function getActors() {
+const displayActors: Actor[] = await helper.AjxGet(`${RootUrl}/api/Api/GetActors`);
+    helper.showSpinner();
 
     if (displayActors == null) {
-        helper.showSpinner()
+        helper.showSpinner();
     }
-
-    displayActors.map( actor => {
+    displayActors.map(actor => {
         new Actor(actor.id, actor.profilePictureURL, actor.fullName, actor.bio, actor.actors_Movies).getRow()
-
-        const detailsBtn = <HTMLButtonElement>document.getElementById('detailsBtn');
-        detailsBtn.addEventListener('click', () => {
-            new Actor(actor.id, actor.profilePictureURL, actor.fullName, actor.bio, actor.actors_Movies).getActorById()     
-        })
     });
     console.log('res', displayActors)
 }
 
+function getActorById() {
+    //let detailsBtn = document.querySelector("button[id^='detailsBtn-']");
+    document.addEventListener('click', async (evt) => {
+        const getId = evt.srcElement as HTMLButtonElement;
+        //console.log('getId', getId.id)
+        const id = parseInt(getId.id.split('-').pop());
+        const req = await helper.AjxGet(`${RootUrl}/api/Api/GetActor/${id}`)
+            .then((response) => response.id);
+        console.log('res', req);
+    })
+}
 
-getActors();
+
+
+initActorsPage();
+
+

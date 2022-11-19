@@ -1,12 +1,3 @@
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 export function toShortDateString(d, inclTime) {
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     let toReturn = `${d.getDate()}-${monthNames[d.getMonth()]}-${d.getFullYear()}`;
@@ -347,100 +338,94 @@ export function randomid(length) {
     }
     return result;
 }
-export function AjxPutJSON(url, JSONobject, JSONReturnObject = false) {
-    return __awaiter(this, void 0, void 0, function* () {
-        //todo: CSRF token mee posten
-        try {
-            let response = yield fetch(url, {
-                method: 'PUT',
-                credentials: 'same-origin',
-                body: JSON.stringify(JSONobject),
-                headers: { 'Content-Type': 'application/json' }
-            });
-            if (JSONReturnObject) {
-                if (response.status == 200) {
-                    return response.json();
-                }
-                else {
-                    console.log(response);
-                }
-                throw new Error;
+export async function AjxPutJSON(url, JSONobject, JSONReturnObject = false) {
+    //todo: CSRF token mee posten
+    try {
+        let response = await fetch(url, {
+            method: 'PUT',
+            credentials: 'same-origin',
+            body: JSON.stringify(JSONobject),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if (JSONReturnObject) {
+            if (response.status == 200) {
+                return response.json();
             }
             else {
-                if (response.status == 200) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
+                console.log(response);
             }
+            throw new Error;
         }
-        catch (ex) {
-            throw ex;
-        }
-        ;
-        //throw new Error;
-    });
-}
-export function AjxDeleteJSON(url, JSONobject) {
-    return __awaiter(this, void 0, void 0, function* () {
-        //todo: CSRF token mee posten
-        try {
-            let response = yield fetch(url, {
-                method: 'DELETE',
-                credentials: 'same-origin',
-                body: JSON.stringify(JSONobject),
-                headers: { 'Content-Type': 'application/json' }
-            });
+        else {
             if (response.status == 200) {
                 return true;
             }
             else {
-                console.log(response);
                 return false;
             }
         }
-        catch (ex) {
-            throw ex;
-        }
-        ;
-    });
+    }
+    catch (ex) {
+        throw ex;
+    }
+    ;
+    //throw new Error;
 }
-export function AjxPost(url, object) {
-    return __awaiter(this, void 0, void 0, function* () {
-        //todo: CSRF token mee posten
-        try {
-            let response;
-            if (object) {
-                response = yield fetch(url, {
-                    method: 'POST',
-                    credentials: 'same-origin',
-                    body: object,
-                    headers: {
-                        'Content-Type': object.type,
-                        'Content-Disposition': `attachment;filename="${object.name}"`
-                    }
-                });
-            }
-            else {
-                response = yield fetch(url, {
-                    method: 'POST',
-                    credentials: 'same-origin'
-                });
-            }
-            if (response.status == 200) {
-                return true;
-            }
-            else {
-                console.log(response);
-                return false;
-            }
+export async function AjxDeleteJSON(url, JSONobject) {
+    //todo: CSRF token mee posten
+    try {
+        let response = await fetch(url, {
+            method: 'DELETE',
+            credentials: 'same-origin',
+            body: JSON.stringify(JSONobject),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if (response.status == 200) {
+            return true;
         }
-        catch (ex) {
-            throw ex;
+        else {
+            console.log(response);
+            return false;
         }
-        ;
-    });
+    }
+    catch (ex) {
+        throw ex;
+    }
+    ;
+}
+export async function AjxPost(url, object) {
+    //todo: CSRF token mee posten
+    try {
+        let response;
+        if (object) {
+            response = await fetch(url, {
+                method: 'POST',
+                credentials: 'same-origin',
+                body: object,
+                headers: {
+                    'Content-Type': object.type,
+                    'Content-Disposition': `attachment;filename="${object.name}"`
+                }
+            });
+        }
+        else {
+            response = await fetch(url, {
+                method: 'POST',
+                credentials: 'same-origin'
+            });
+        }
+        if (response.status == 200) {
+            return true;
+        }
+        else {
+            console.log(response);
+            return false;
+        }
+    }
+    catch (ex) {
+        throw ex;
+    }
+    ;
 }
 //export async function getJWToken(target: string = 'export', onError: { () } = null): Promise<any> {
 //	//get JWT
@@ -540,130 +525,124 @@ export function AjxPost(url, object) {
 //	select.dispatchEvent(changeEvent);
 //}
 //Function for getting data //usage let mydata: any = await this.GetData('18');
-export function AjxGetJSON(url, parseJson = false, timeout = 5000, onerror = null) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            //const controller = new AbortController(); https://dmitripavlutin.com/timeout-fetch-request/
-            //const id = setTimeout(() => controller.abort(), timeout);
-            let hasFailed = false;
-            const id = setTimeout(() => __awaiter(this, void 0, void 0, function* () {
-                if (onerror) {
-                    onerror("timeoutexpired"); //trigger the error callback
-                }
-                yield console.log('err');
-                hasFailed = true;
-                return;
-            }), timeout);
-            const response = yield fetch(url, {
-                method: 'GET',
-                credentials: 'same-origin',
-                cache: "no-store",
-                //signal: controller.signal
-            });
-            clearTimeout(id);
-            if (hasFailed) {
-                return null;
-            }
-            else {
-                if (response.ok) {
-                    if (parseJson) {
-                        let jsonstring = yield response;
-                        return jsonParse(jsonstring);
-                    }
-                    else {
-                        return response.json();
-                    }
-                }
-                else {
-                    if (onerror) {
-                        onerror(response); //trigger the error callback
-                    }
-                    yield console.log('err', response); //show and log the error
-                }
-            }
-        }
-        catch (ex) {
-            //general failure
+export async function AjxGetJSON(url, parseJson = false, timeout = 5000, onerror = null) {
+    try {
+        //const controller = new AbortController(); https://dmitripavlutin.com/timeout-fetch-request/
+        //const id = setTimeout(() => controller.abort(), timeout);
+        let hasFailed = false;
+        const id = setTimeout(async () => {
             if (onerror) {
-                onerror(ex);
+                onerror("timeoutexpired"); //trigger the error callback
             }
-            throw ex;
+            await console.log('err');
+            hasFailed = true;
+            return;
+        }, timeout);
+        const response = await fetch(url, {
+            method: 'GET',
+            credentials: 'same-origin',
+            cache: "no-store",
+            //signal: controller.signal
+        });
+        clearTimeout(id);
+        if (hasFailed) {
+            return null;
         }
-        ;
-    });
-}
-export function AjxGet(url, timeout = 5000, onerror = null) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            //const controller = new AbortController(); https://dmitripavlutin.com/timeout-fetch-request/
-            //const id = setTimeout(() => controller.abort(), timeout);
-            // If timeout is null, the timeout alert appears immediately. 
-            // That's not wat we want so in that case set the timeout to the default 5000 ms.
-            if (timeout == null) {
-                timeout = 5000;
-            }
-            let hasFailed = false;
-            const id = setTimeout(() => __awaiter(this, void 0, void 0, function* () {
-                if (onerror) {
-                    onerror("timeoutexpired"); //trigger the error callback
-                }
-                yield console.log('err', url, location.href);
-                hasFailed = true;
-                return;
-            }), timeout);
-            const response = yield fetch(url, {
-                method: 'GET',
-                credentials: 'same-origin',
-                cache: "no-store",
-                //signal: controller.signal
-            });
-            clearTimeout(id);
-            if (hasFailed) {
-                return null;
-            }
-            else {
-                if (response.ok) {
-                    let jsonstring = yield response.json();
+        else {
+            if (response.ok) {
+                if (parseJson) {
+                    let jsonstring = await response;
                     return jsonParse(jsonstring);
                 }
                 else {
-                    if (onerror) { //is a function defined ?
-                        onerror(response); //trigger the error callback
-                    }
-                    yield console.log('err', response); //show and log the error
+                    return response.json();
                 }
             }
-        }
-        catch (ex) {
-            //general failure
-            if (onerror) { //is a function defined ?
-                onerror(ex);
+            else {
+                if (onerror) {
+                    onerror(response); //trigger the error callback
+                }
+                await console.log('err', response); //show and log the error
             }
-            throw ex;
         }
-        ;
-    });
+    }
+    catch (ex) {
+        //general failure
+        if (onerror) {
+            onerror(ex);
+        }
+        throw ex;
+    }
+    ;
 }
-export function AjxGetBLOB(url) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const response = yield fetch(url, {
-                method: 'GET',
-                credentials: 'same-origin',
-                cache: "no-store",
-            });
+export async function AjxGet(url, timeout = 5000, onerror = null) {
+    try {
+        //const controller = new AbortController(); https://dmitripavlutin.com/timeout-fetch-request/
+        //const id = setTimeout(() => controller.abort(), timeout);
+        // If timeout is null, the timeout alert appears immediately. 
+        // That's not wat we want so in that case set the timeout to the default 5000 ms.
+        if (timeout == null) {
+            timeout = 5000;
+        }
+        let hasFailed = false;
+        const id = setTimeout(async () => {
+            if (onerror) {
+                onerror("timeoutexpired"); //trigger the error callback
+            }
+            await console.log('err', url, location.href);
+            hasFailed = true;
+            return;
+        }, timeout);
+        const response = await fetch(url, {
+            method: 'GET',
+            credentials: 'same-origin',
+            cache: "no-store",
+            //signal: controller.signal
+        });
+        clearTimeout(id);
+        if (hasFailed) {
+            return null;
+        }
+        else {
             if (response.ok) {
-                return response.blob();
+                let jsonstring = await response.json();
+                return jsonParse(jsonstring);
             }
             else {
-                console.log(response);
+                if (onerror) { //is a function defined ?
+                    onerror(response); //trigger the error callback
+                }
+                await console.log('err', response); //show and log the error
             }
         }
-        catch (ex) {
-            throw ex;
+    }
+    catch (ex) {
+        //general failure
+        if (onerror) { //is a function defined ?
+            onerror(ex);
         }
-        ;
-    });
+        throw ex;
+    }
+    ;
+}
+export async function AjxGetBLOB(url) {
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            credentials: 'same-origin',
+            cache: "no-store",
+        });
+        if (response.ok) {
+            return response.blob();
+        }
+        else {
+            console.log(response);
+        }
+    }
+    catch (ex) {
+        throw ex;
+    }
+    ;
 }
 export function bindEvent(object, event, callback, bindingNotAllowed = false) {
     if (object && !bindingNotAllowed) {
